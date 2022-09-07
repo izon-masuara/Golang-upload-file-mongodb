@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
@@ -28,7 +27,7 @@ func Image(w http.ResponseWriter, r *http.Request) {
 	}
 	switch r.Method {
 	case "GET":
-		buf, err := ioutil.ReadFile("files/images.jpeg")
+		buf, err := ioutil.ReadFile("files/MapsBali.png")
 
 		if err != nil {
 
@@ -39,13 +38,6 @@ func Image(w http.ResponseWriter, r *http.Request) {
 		w.Write(buf)
 
 	case "POST":
-		if err := r.ParseMultipartForm(1024); err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		alias := r.FormValue("alias")
-
 		uploadedFile, handler, err := r.FormFile("image")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -60,10 +52,6 @@ func Image(w http.ResponseWriter, r *http.Request) {
 		}
 
 		filename := handler.Filename
-		if alias != "" {
-			filename = fmt.Sprintf("%s%s", alias, filepath.Ext(handler.Filename))
-		}
-
 		fileLocation := filepath.Join(dir, "files", filename)
 		targetFile, err := os.OpenFile(fileLocation, os.O_WRONLY|os.O_CREATE, 0666)
 		if err != nil {
