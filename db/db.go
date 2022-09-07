@@ -9,7 +9,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-var ctx = context.Background()
+var Ctx = context.Background()
 
 type student struct {
 	Name  string `bson:"name"`
